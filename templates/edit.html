@@ -31,11 +31,12 @@
                         {{ render_edit_field(form.date, entry.date.strftime('%Y-%m-%d')) }}
                         {{ render_edit_field(form.time_spent, entry.time_spent) }}
                         {{ form.learned.label }}
-                        <textarea id="what-you-learned" rows="5" value="{{ entry.learned }}">{{ entry.learned }}</textarea><br>
+                        <textarea id="what-you-learned" rows="5" name="learned" value="{{ entry.learned }}">{{ entry.learned }}</textarea><br>
                         {{ form.ressources.label }}
-                        <textarea id="resources-to-remember" rows="5" value="{{ entry.ressources }}">{{ entry.ressources }}</textarea><br>
+                        <textarea id="resources-to-remember" rows="5" name="ressources" value="{{ entry.ressources }}">{{ entry.ressources }}</textarea><br>
                         <input type="submit" value="Update Entry" class="button">
                         <a href="{{ url_for('index') }}" class="button button-secondary">Cancel</a>
+                        <a href="{{ url_for('delete', entry_id=entry.id) }}" class="button button-secondary">Delete</a>
                 </div>
             </div>
         </section>

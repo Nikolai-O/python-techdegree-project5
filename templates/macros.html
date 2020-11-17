@@ -18,16 +18,3 @@
 </div>
 
 {% endmacro %}
-
-{% macro render_field_edit(field, value) %}
-<div>
- {% if field.errors %}
-  {% for error in field.errors %}
-    <div>{{ error }}</div>
-  {% endfor %}
- {% endif %}
- <label for="{{ field.name }}">{{ field.label }}</label>
- {{ field(placeholder="content") }}
-</div>
-
-{% endmacro %}

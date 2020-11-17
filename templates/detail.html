@@ -38,19 +38,15 @@
                         <div class="entry">
                             <h3>Resources to Remember:</h3>
                             <p>{{ entry.ressources }}</p>
-                            <!--<ul>
-                                <li><a href="">Lorem ipsum dolor sit amet</a></li>
-                                <li><a href="">Cras accumsan cursus ante, non dapibus tempor</a></li>
-                                <li>Nunc ut rhoncus felis, vel tincidunt neque</li>
-                                <li><a href="">Ipsum dolor sit amet</a></li>
-                            </ul>
-                          -->
                         </div>
                     </article>
                 </div>
             </div>
             <div class="edit">
                 <p><a href="{{ url_for('edit', entry_id=entry.id) }}">Edit Entry</a></p>
+            </div>
+            <div class="edit">
+                <p><a href="{{ url_for('delete', entry_id=entry.id) }}" class="button button-secondary">Delete</a></p>
             </div>
         </section>
         <footer>

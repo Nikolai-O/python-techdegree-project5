@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, redirect, url_for
 
 import forms
 import models
@@ -24,7 +24,6 @@ def index():
 def new():
     form = forms.NewEntry()
     if form.validate_on_submit():
-        # flash("Entry created", "success")
         models.Entry.create_entry(
             title=form.title.data,
             date=form.date.data,
@@ -47,19 +46,25 @@ def edit(entry_id):
     form = forms.NewEntry()
     entry = models.Entry.get_by_id(entry_id)
     if form.validate_on_submit():
-        entry.title=form.title.data
-        entry.date=form.date.data
-        entry.time_spent=form.time_spent.data
-        entry.learned=form.learned.data
-        entry.ressources=form.ressources.data
+        entry.title = form.title.data
+        entry.date = form.date.data
+        entry.time_spent = form.time_spent.data
+        entry.learned = form.learned.data
+        entry.ressources = form.ressources.data
         entry.save()
         return redirect(url_for('index'))
     return render_template('edit.html', form=form, entry=entry)
 
 
-@app.route('/entries/<int:entry_id>/delete', methods=('GET', 'POST'))
-def delete():
-    return render_template('index')
+@app.route('/entries/<int:entry_id>/delete')
+def delete(entry_id):
+    try:
+        entry = models.Entry.get_by_id(entry_id)
+        entry.delete_instance()
+        entry.save()
+    except models.DoesNotExist:
+        pass
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
