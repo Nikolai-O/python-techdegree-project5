@@ -28,7 +28,17 @@
                     <form method="POST" action="">
                         {{ form.hidden_tag() }}
                         {% for field in form %}
-                          {{ render_field(field) }}
+                          {% if field.name == 'date' %}
+                            {% if field.errors %}
+                             {% for error in field.errors %}
+                               <div>{{ error }}</div>
+                             {% endfor %}
+                            {% endif %}
+                            {{ field.label.text }}
+                            <input tyep="date" id="date" name="date">
+                          {% else %}
+                            {{ render_field(field) }}
+                          {% endif %}
                         {% endfor %}
 
                         <input type="submit" value="Publish Entry" class="button">

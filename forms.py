@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, TextField, DateField, TextAreaField
+from wtforms import StringField, TextField, DateTimeField, TextAreaField
 from wtforms.validators import DataRequired, Regexp, ValidationError
 
 from models import Entry
@@ -17,7 +17,7 @@ class NewEntry(Form):
             DataRequired(),
             title_exists
             ])
-    date = DateField(
+    date = DateTimeField(
         'Date (format YYYY-MM-DD): ', format='%Y-%m-%d',
         validators=[]
     )
