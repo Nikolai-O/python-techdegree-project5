@@ -9,14 +9,14 @@
         <link href="https://fonts.googleapis.com/css?family=Cousine:400" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Work+Sans:600" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/site.css">
+        <link rel="stylesheet" href="/static/css/normalize.css">
+        <link rel="stylesheet" href="/static/css/site.css">
     </head>
     <body>
         <header>
             <div class="container">
                 <div class="site-header">
-                    <a class="logo" href="{{ url_for('index') }}"><i class="material-icons">library_books </i>Home</a><br>
+                    <a class="logo" href="{{ url_for('index') }}"><i class="material-icons">library_books </i></a><br>
                     <a href="{{ url_for('new') }}" class="button icon-right" href="new.html"><span>New Entry</span> <i class="material-icons">add</i></a>
                 </div>
             </div>
@@ -31,9 +31,9 @@
                         {{ render_edit_field(form.date, entry.date.strftime('%Y-%m-%d')) }}
                         {{ render_edit_field(form.time_spent, entry.time_spent) }}
                         {{ form.learned.label }}
-                        <textarea id="what-you-learned" rows="5" name="learned" value="{{ entry.learned }}">{{ entry.learned }}</textarea><br>
+                        <textarea id="what-you-learned" name="learned">{{ entry.learned }}</textarea><br>
                         {{ form.ressources.label }}
-                        <textarea id="resources-to-remember" rows="5" name="ressources" value="{{ entry.ressources }}">{{ entry.ressources }}</textarea><br>
+                        <textarea id="resources-to-remember" name="ressources">{{ entry.ressources }}</textarea><br>
                         <input type="submit" value="Update Entry" class="button">
                         <a href="{{ url_for('index') }}" class="button button-secondary">Cancel</a>
                         <a href="{{ url_for('delete', entry_id=entry.id) }}" class="button button-secondary">Delete</a>
