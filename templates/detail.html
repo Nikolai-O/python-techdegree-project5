@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>MyJournal</title>
+        <link href="https://fonts.googleapis.com/css?family=Cousine:400" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Work+Sans:600" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/site.css">
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <div class="site-header">
+                    <a class="logo" href="{{ url_for('index') }}"><i class="material-icons">library_books </i>Home</a><br>
+                    <a href="{{ url_for('new') }}" class="button icon-right" href="new.html"><span>New Entry</span> <i class="material-icons">add</i></a>
+                </div>
+            </div>
+        </header>
+        <section>
+            <div class="container">
+                <div class="entry-list single">
+
+                    <article>
+
+                        <h1>{{ entry.title }}</h1>
+                        <time datetime="{{ entry.date.strftime('%Y-%m-%d') }}">{{ entry.date.strftime('%Y-%m-%d') }}</time>
+                        <div class="entry">
+                            <h3>Time Spent: </h3>
+                            <p>{{ entry.time_spent }}</p>
+                        </div>
+                        <div class="entry">
+                            <h3>What I Learned:</h3>
+                            <p>{{ entry.learned }}</p>
+                        </div>
+                        <div class="entry">
+                            <h3>Resources to Remember:</h3>
+                            <p>{{ entry.ressources }}</p>
+                            <!--<ul>
+                                <li><a href="">Lorem ipsum dolor sit amet</a></li>
+                                <li><a href="">Cras accumsan cursus ante, non dapibus tempor</a></li>
+                                <li>Nunc ut rhoncus felis, vel tincidunt neque</li>
+                                <li><a href="">Ipsum dolor sit amet</a></li>
+                            </ul>
+                          -->
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <div class="edit">
+                <p><a href="{{ url_for('edit', entry_id=entry.id) }}">Edit Entry</a></p>
+            </div>
+        </section>
+        <footer>
+            <div>
+                &copy; MyJournal
+            </div>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+{% macro render_field(field) %}
+<div>
+ {% if field.errors %}
+  {% for error in field.errors %}
+    <div>{{ error }}</div>
+  {% endfor %}
+ {% endif %}
+ <label for="{{ field.name }}">{{ field.label }}</label>
+ {{ field(placeholder="") }}
+</div>
+
+{% endmacro %}
+
+{% macro render_edit_field(field, value) %}
+<div>
+ {{ field.label }}
+ {{ field(value=value) }}
+</div>
+
+{% endmacro %}
+
+{% macro render_field_edit(field, value) %}
+<div>
+ {% if field.errors %}
+  {% for error in field.errors %}
+    <div>{{ error }}</div>
+  {% endfor %}
+ {% endif %}
+ <label for="{{ field.name }}">{{ field.label }}</label>
+ {{ field(placeholder="content") }}
+</div>
+
+{% endmacro %}
