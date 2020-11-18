@@ -103,7 +103,16 @@ if __name__ == '__main__':
     try:
         models.Tag.base_tags('Python', models.Entry.get_by_id(1))
     except ValueError:
-        pass    
+        pass
 
+    try:
+        models.EntryTag.base_tags_relation(models.Entry.get_by_id(2), models.Tag.get_by_id(1))
+    except ValueError:
+        pass
+
+    try:
+        models.Tag.base_tags('Operating System', models.Entry.get_by_id(3))
+    except ValueError:
+        pass
 
     app.run(debug=DEBUG, host=HOST, port=PORT)

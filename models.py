@@ -48,7 +48,7 @@ class Entry(Model):
 
 
 class Tag(Model):
-    tag = TextField()
+    tag = TextField(unique=True)
     entry = ForeignKeyField(Entry, backref="tags")
 
     class Meta:
@@ -63,10 +63,27 @@ class Tag(Model):
                     entry=entry
                 )
         except IntegrityError:
-            raise ValueError("Jounral tag already exists.")        
+            raise ValueError("Jounral tag already exists.")
 
+class EntryTag(Model):
+    from_entry = ForeignKeyField(Entry)
+    to_tag = ForeignKeyField(Tag)
+
+    class Meta:
+        database = DATABASE
+        indexes = (
+            (('from_entry', 'to_tag'), True),
+        )
+
+    @classmethod
+    def base_tags_relation(cls, entry, tag):
+        try:
+            with DATABASE.transaction():
+                cls.create(from_entry=entry, to_tag=tag)
+        except IntegrityError:
+            raise ValueError("Relation tag already exists.")        
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Entry, Tag], safe=True)
+    DATABASE.create_tables([Entry, Tag, EntryTag], safe=True)
     DATABASE.close()
