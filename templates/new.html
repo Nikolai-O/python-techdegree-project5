@@ -27,6 +27,7 @@
                     <h2>New Entry</h2>
                     <form method="POST" action="">
                         {{ form.hidden_tag() }}
+                        
                         {% for field in form %}
                           {% if field.name == 'date' %}
                             {% if field.errors %}
@@ -35,7 +36,7 @@
                              {% endfor %}
                             {% endif %}
                             {{ field.label.text }}
-                            <input tyep="date" id="date" name="date">
+                            <input type="date" id="date" name="date">
                           {% else %}
                             {{ render_field(field) }}
                           {% endif %}

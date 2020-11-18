@@ -15,7 +15,6 @@ class NewEntry(Form):
         'Title: ',
         validators=[
             DataRequired(),
-            title_exists
             ])
     date = DateTimeField(
         'Date (format YYYY-MM-DD): ', format='%Y-%m-%d',

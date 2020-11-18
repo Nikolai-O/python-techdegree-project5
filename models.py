@@ -38,13 +38,35 @@ class Entry(Model):
                     title=title,
                     time_spent=time_spent,
                     learned=learned,
-                    ressources=ressources
+                    ressources=ressources,
                 )
         except IntegrityError:
             raise ValueError("Journal entry already exists.")
 
+    def get_tags(self):
+        return Tag.select().where(Tag.entry == self)
+
+
+class Tag(Model):
+    tag = TextField()
+    entry = ForeignKeyField(Entry, backref="tags")
+
+    class Meta:
+        database = DATABASE
+
+    @classmethod
+    def base_tags(cls, tag, entry):
+        try:
+            with DATABASE.transaction():
+                cls.create(
+                    tag=tag,
+                    entry=entry
+                )
+        except IntegrityError:
+            raise ValueError("Jounral tag already exists.")        
+
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Entry], safe=True)
+    DATABASE.create_tables([Entry, Tag], safe=True)
     DATABASE.close()

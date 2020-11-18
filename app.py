@@ -29,7 +29,7 @@ def new():
             date=form.date.data,
             time_spent=form.time_spent.data,
             learned=form.learned.data,
-            ressources=form.ressources.data
+            ressources=form.ressources.data,
         )
         return redirect(url_for('index'))
     return render_template('new.html', form=form)
@@ -76,6 +76,7 @@ if __name__ == '__main__':
             learned='Learned to build apps with Flask',
             ressources='Treehouse'
         )
+
     except ValueError:
         pass
 
@@ -95,8 +96,14 @@ if __name__ == '__main__':
             time_spent='1',
             learned='Learned to use the terminal properly',
             ressources='Treehouse'
-        )
+            )
     except ValueError:
         pass
+
+    try:
+        models.Tag.base_tags('Python', models.Entry.get_by_id(1))
+    except ValueError:
+        pass    
+
 
     app.run(debug=DEBUG, host=HOST, port=PORT)
