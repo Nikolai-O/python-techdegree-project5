@@ -37,6 +37,12 @@
                             <h3>Resources to Remember:</h3>
                             <p>{{ entry.ressources }}</p>
                         </div>
+                        <div class="entry">
+                            <h3>Tags:</h3>
+                            {% for tag in entry.tagged() %}
+                              <p><a href="{{ url_for('listing', tag_id=tag.id) }}">{{ tag.tag }}</a></p>
+                            {% endfor %}
+                        </div>
                 </div>
             </div>
             <div class="edit">

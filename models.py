@@ -56,13 +56,20 @@ class Entry(Model):
     def tagged_entry(self):
         """The entries that have this tag"""
         return(
-            Entry.select.join(
+            Entry.select().join(
                 EntryTag, on=EntryTag.from_entry).where(EntryTag.to_tag == self)
             )
 
 
 class Tag(Model):
     tag = TextField(unique=True)
+
+    def tagged_entry(self):
+        """The entries that have this tag"""
+        return(
+            Entry.select().join(
+                EntryTag, on=EntryTag.from_entry).where(EntryTag.to_tag == self)
+            )
 
     class Meta:
         database = DATABASE

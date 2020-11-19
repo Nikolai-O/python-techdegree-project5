@@ -20,6 +20,12 @@ def index():
     return render_template('index.html', entries=entries)
 
 
+@app.route('/listing/<int:tag_id>')
+def listing(tag_id):
+    tag = models.Tag.get_by_id(tag_id)
+    return render_template('listing.html', tag=tag)
+
+
 @app.route('/entries/new', methods=('GET', 'POST'))
 def new():
     form = forms.NewEntry()

@@ -22,15 +22,13 @@
         <section>
             <div class="container">
                 <div class="entry-list">
-                    {% for entry in entries %}
+                    <h2 style="padding-bottom: 30px"> Entries tagged with "{{ tag.tag }}": </h2>
+                    {% for entry in tag.tagged_entry() %}
                     <article>
-                        <h2>
+                        <h3>
                           <a href="{{ url_for('detail', entry_id=entry.id) }}">{{ entry.title }}</a>
-                        </h2>
+                        </h3>
                         <time datetime="{{ entry.date.strftime('%Y-%m-%d') }}">{{ entry.date.strftime('%Y-%m-%d') }}</time><br>
-                        {% for tag in entry.tagged() %}
-                          <a href="{{ url_for('listing', tag_id=tag.id) }}">{{ tag.tag }}</a>
-                        {% endfor %}
                     </article>
                     {% endfor %}
                     <br>
