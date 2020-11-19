@@ -30,6 +30,7 @@ def listing(tag_id):
 def new():
     form = forms.NewEntry()
     if form.validate_on_submit():
+        tag_list = form.tags.data.split()
         models.Entry.create_entry(
             title=form.title.data,
             date=form.date.data,
@@ -37,6 +38,36 @@ def new():
             learned=form.learned.data,
             ressources=form.ressources.data,
         )
+
+
+        for tag in tag_list:
+            if models.DoesNotExist:
+                try:
+                    models.Tag.create(tag=tag)
+                except IntegrityError:
+                    pass
+                models.EntryTag.base_tags_relation(
+                    models.Entry.get(models.Entry.title**form.title.data),
+                    models.Tag.get(models.Tag.tag**tag)
+                    )
+            else:
+                models.EntryTag.base_tags_relation(
+                    models.Entry.get(models.Entry.title**form.title.data),
+                    models.Tag.get(models.Tag.tag**form.tags.data)
+                    )
+            #else:
+                #models.EntryTag.base_tags_relation(
+                    #models.Entry.get(models.Entry.title**form.title.data),
+                    #models.Tag.get(models.Tag.tag**tag)
+                    #)
+
+        #if models.DoesNotExist:
+            #models.Tag.create(tag=form.tags.data)
+
+        #models.EntryTag.base_tags_relation(
+            #models.Entry.get(models.Entry.title**form.title.data),
+            #models.Tag.get(models.Tag.tag**form.tags.data)
+            #)
         return redirect(url_for('index'))
     return render_template('new.html', form=form)
 

@@ -34,3 +34,7 @@ class NewEntry(Form):
         'List the ressources used for your learning: ',
         validators=[DataRequired()]
     )
+    tags = StringField(
+        'Enter tags for your entry (each white space creates new tag): ',
+        validators=[DataRequired()]
+    )
