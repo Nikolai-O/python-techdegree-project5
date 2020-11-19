@@ -27,7 +27,10 @@
                         <h2>
                           <a href="{{ url_for('detail', entry_id=entry.id) }}">{{ entry.title }}</a>
                         </h2>
-                        <time datetime="{{ entry.date.strftime('%Y-%m-%d') }}">{{ entry.date.strftime('%Y-%m-%d') }}</time>
+                        <time datetime="{{ entry.date.strftime('%Y-%m-%d') }}">{{ entry.date.strftime('%Y-%m-%d') }}</time><br>
+                        {% for tag in entry.tagged() %}
+                          <a href="#">{{ tag.tag }}</a>
+                        {% endfor %}
                     </article>
                     {% endfor %}
                     <br>

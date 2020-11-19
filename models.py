@@ -46,6 +46,20 @@ class Entry(Model):
     def get_tags(self):
         return Tag.select().where(Tag.entry == self)
 
+    def tagged(self):
+        """The tags that this entry belongs to"""
+        return(
+            Tag.select().join(
+                EntryTag, on=EntryTag.to_tag).where(EntryTag.from_entry == self)
+            )
+
+    def tagged_entry(self):
+        """The entries that have this tag"""
+        return(
+            Entry.select.join(
+                EntryTag, on=EntryTag.from_entry).where(EntryTag.to_tag == self)
+            )
+
 
 class Tag(Model):
     tag = TextField(unique=True)
