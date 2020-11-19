@@ -49,18 +49,16 @@ class Entry(Model):
 
 class Tag(Model):
     tag = TextField(unique=True)
-    entry = ForeignKeyField(Entry, backref="tags")
 
     class Meta:
         database = DATABASE
 
     @classmethod
-    def base_tags(cls, tag, entry):
+    def base_tags(cls, tag):
         try:
             with DATABASE.transaction():
                 cls.create(
                     tag=tag,
-                    entry=entry
                 )
         except IntegrityError:
             raise ValueError("Jounral tag already exists.")
@@ -81,7 +79,7 @@ class EntryTag(Model):
             with DATABASE.transaction():
                 cls.create(from_entry=entry, to_tag=tag)
         except IntegrityError:
-            raise ValueError("Relation tag already exists.")        
+            raise ValueError("Relation tag already exists.")
 
 def initialize():
     DATABASE.connect()
