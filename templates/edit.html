@@ -34,6 +34,8 @@
                         <textarea id="what-you-learned" name="learned">{{ entry.learned }}</textarea><br>
                         {{ form.ressources.label }}
                         <textarea id="resources-to-remember" name="ressources">{{ entry.ressources }}</textarea><br>
+                        {{ form.tags.label }}
+                        {{ form.tags(value=(tags)) }}
                         <input type="submit" value="Update Entry" class="button">
                         <a href="{{ url_for('index') }}" class="button button-secondary">Cancel</a>
                         <a href="{{ url_for('delete', entry_id=entry.id) }}" class="button button-secondary">Delete</a>

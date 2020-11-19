@@ -56,19 +56,7 @@ def new():
                     models.Entry.get(models.Entry.title**form.title.data),
                     models.Tag.get(models.Tag.tag**form.tags.data)
                     )
-            #else:
-                #models.EntryTag.base_tags_relation(
-                    #models.Entry.get(models.Entry.title**form.title.data),
-                    #models.Tag.get(models.Tag.tag**tag)
-                    #)
 
-        #if models.DoesNotExist:
-            #models.Tag.create(tag=form.tags.data)
-
-        #models.EntryTag.base_tags_relation(
-            #models.Entry.get(models.Entry.title**form.title.data),
-            #models.Tag.get(models.Tag.tag**form.tags.data)
-            #)
         return redirect(url_for('index'))
     return render_template('new.html', form=form)
 
@@ -83,15 +71,42 @@ def detail(entry_id):
 def edit(entry_id):
     form = forms.NewEntry()
     entry = models.Entry.get_by_id(entry_id)
+    tags = []
+    for tag in models.Entry.get_by_id(entry_id).tagged():
+        tags.append(tag.tag)
+    tags = ' '.join(tags)
     if form.validate_on_submit():
+        tag_list = form.tags.data.split()
         entry.title = form.title.data
         entry.date = form.date.data
         entry.time_spent = form.time_spent.data
         entry.learned = form.learned.data
         entry.ressources = form.ressources.data
+
+        for tag in tags.split(" "):
+            if tag not in tag_list:
+                models.EntryTag.get(
+                    from_entry=models.Entry.get(models.Entry.title**form.title.data),
+                    to_tag=models.Tag.get(models.Tag.tag**tag)).delete_instance()
+
+        for tag in tag_list:
+            if tag not in models.Entry.get_by_id(entry_id).tagged():
+                if models.DoesNotExist:
+                    try:
+                        models.Tag.create(tag=tag)
+                    except IntegrityError:
+                        pass
+                    try:
+                        models.EntryTag.base_tags_relation(
+                            models.Entry.get(models.Entry.title**form.title.data),
+                            models.Tag.get(models.Tag.tag**tag)
+                            )
+                    except ValueError:
+                        pass
+
         entry.save()
         return redirect(url_for('index'))
-    return render_template('edit.html', form=form, entry=entry)
+    return render_template('edit.html', form=form, entry=entry, tags=tags)
 
 
 @app.route('/entries/<int:entry_id>/delete')

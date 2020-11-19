@@ -24,7 +24,7 @@ class NewEntry(Form):
         'Time spent on subject in hours (Please enter a number): ',
         validators=[
             DataRequired(),
-            Regexp(r'^[0-9]+$', message="Time spent should be numbers only: ")
+            Regexp(r'^[0-9]+$', message="Time spent should be numbers only")
             ])
     learned = TextAreaField(
         'Tell us what you learned: ',
@@ -35,6 +35,9 @@ class NewEntry(Form):
         validators=[DataRequired()]
     )
     tags = StringField(
-        'Enter tags for your entry (each white space creates new tag): ',
-        validators=[DataRequired()]
-    )
+        'Enter tags for your entry (no commas, each white space creates new tag): ',
+        validators=[DataRequired(),
+        Regexp(r'^[a-zA-Z0-9_ ]+$',
+        message=("Tags should be letters, "
+        "numbers and underscores only, seperated by a space"))
+    ])
