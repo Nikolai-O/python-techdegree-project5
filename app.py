@@ -68,7 +68,7 @@ def logout():
 @app.route('/')
 @app.route('/entries')
 def index():
-    entries = models.Entry.select()
+    entries = models.Entry.select().order_by(models.Entry.date.desc())
     return render_template('index.html', entries=entries)
 
 
