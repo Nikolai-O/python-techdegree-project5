@@ -1,5 +1,6 @@
 from flask_wtf import Form
-from wtforms import StringField, TextField, DateTimeField, TextAreaField
+from wtforms import (StringField, TextField, DateTimeField,
+                     TextAreaField, PasswordField)
 from wtforms.validators import DataRequired, Regexp, ValidationError
 
 from models import Entry
@@ -35,9 +36,16 @@ class NewEntry(Form):
         validators=[DataRequired()]
     )
     tags = StringField(
-        'Enter tags for your entry (no commas, each white space creates new tag): ',
+        'Enter tags for your entry '
+        '(no commas, each white space creates new tag): ',
         validators=[DataRequired(),
-        Regexp(r'^[a-zA-Z0-9_ ]+$',
-        message=("Tags should be letters, "
-        "numbers and underscores only, seperated by a space"))
-    ])
+                    Regexp(r'^[a-zA-Z0-9_ ]+$',
+                    message=("Tags should be letters, "
+                             "numbers and underscores only, "
+                             "seperated by a space"))
+                    ])
+
+
+class LoginForm(Form):
+        username = StringField('Username: ', validators=[DataRequired()])
+        password = PasswordField('Password: ', validators=[DataRequired()])

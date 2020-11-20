@@ -1,5 +1,3 @@
-{% from 'macros.html' import render_field %}
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,38 +15,28 @@
             <div class="container">
                 <div class="site-header">
                     <a class="logo" href="{{ url_for('index') }}"><i class="material-icons">library_books </i></a><br>
-                    <a class="button icon-right" href=""{{ url_for('new') }}""><span>New Entry</span> <i class="material-icons">add</i></a>
+                    <a href="{{ url_for('new') }}"class="button icon-right" href="new.html"><span>New Entry</span> <i class="material-icons">add</i></a>
                     <a href="{{ url_for('logout') }}"class="button icon-right"><span>logout</span> <i class="material-icons">add</i></a>
                     <a href="{{ url_for('login') }}"class="button icon-right"><span>login</span> <i class="material-icons">add</i></a>
                 </div>
             </div>
         </header>
         <section>
-            <div class="container">
-                <div class="new-entry">
-                    <h2>New Entry</h2>
-                    <form method="POST" action="">
-                        {{ form.hidden_tag() }}
+          <div class="container">
+              <div class="new-entry">
+                  <h2>Login</h2>
+                  <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    {{ form.username.label }}
+                    {{ form.username }}
+                    {{ form.password.label }}
+                    {{ form.password }}
 
-                        {% for field in form %}
-                          {% if field.name == 'date' %}
-                            {% if field.errors %}
-                             {% for error in field.errors %}
-                               <div>{{ error }}</div>
-                             {% endfor %}
-                            {% endif %}
-                            {{ field.label.text }}
-                            <input type="date" id="date" name="date">
-                          {% else %}
-                            {{ render_field(field) }}
-                          {% endif %}
-                        {% endfor %}
-
-                        <input type="submit" value="Publish Entry" class="button">
-                        <a href="{{ url_for('index') }}" class="button button-secondary">Cancel</a>
-                    </form>
-                </div>
-            </div>
+                      <input type="submit" value="Login" class="button">
+                      <a href="{{ url_for('index') }}" class="button button-secondary">Cancel</a>
+                  </form>
+              </div>
+          </div>
         </section>
         <footer>
             <div>

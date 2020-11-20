@@ -1,8 +1,28 @@
 import datetime
 
+from flask_bcrypt import generate_password_hash
+from flask_login import UserMixin
 from peewee import *
 
 DATABASE = SqliteDatabase('journal.db')
+
+
+class User(UserMixin, Model):
+    username = CharField(unique=True)
+    password = CharField()
+
+    class Meta:
+        database = DATABASE
+
+    @classmethod
+    def create_user(cls, username, password):
+        try:
+            cls.create(
+                username=username,
+                password=generate_password_hash(password)
+            )
+        except IntegrityError:
+            raise ValueError("User already exists")
 
 
 class Entry(Model):
@@ -47,17 +67,19 @@ class Entry(Model):
         return Tag.select().where(Tag.entry == self)
 
     def tagged(self):
-        """The tags that this entry belongs to"""
+        """The tags that this entry has"""
         return(
             Tag.select().join(
-                EntryTag, on=EntryTag.to_tag).where(EntryTag.from_entry == self)
+                EntryTag,
+                on=EntryTag.to_tag).where(EntryTag.from_entry == self)
             )
 
     def tagged_entry(self):
         """The entries that have this tag"""
         return(
             Entry.select().join(
-                EntryTag, on=EntryTag.from_entry).where(EntryTag.to_tag == self)
+                EntryTag,
+                on=EntryTag.from_entry).where(EntryTag.to_tag == self)
             )
 
 
@@ -68,7 +90,8 @@ class Tag(Model):
         """The entries that have this tag"""
         return(
             Entry.select().join(
-                EntryTag, on=EntryTag.from_entry).where(EntryTag.to_tag == self)
+                EntryTag,
+                on=EntryTag.from_entry).where(EntryTag.to_tag == self)
             )
 
     class Meta:
@@ -83,6 +106,7 @@ class Tag(Model):
                 )
         except IntegrityError:
             raise ValueError("Jounral tag already exists.")
+
 
 class EntryTag(Model):
     from_entry = ForeignKeyField(Entry)
@@ -102,7 +126,8 @@ class EntryTag(Model):
         except IntegrityError:
             raise ValueError("Relation tag already exists.")
 
+
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Entry, Tag, EntryTag], safe=True)
+    DATABASE.create_tables([User, Entry, Tag, EntryTag], safe=True)
     DATABASE.close()
