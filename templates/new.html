@@ -29,21 +29,18 @@
                     <h2>New Entry</h2>
                     <form method="POST" action="">
                         {{ form.hidden_tag() }}
-
-                        {% for field in form %}
-                          {% if field.name == 'date' %}
-                            {% if field.errors %}
-                             {% for error in field.errors %}
-                               <div>{{ error }}</div>
-                             {% endfor %}
-                            {% endif %}
-                            {{ field.label.text }}
-                            <input type="date" id="date" name="date">
-                          {% else %}
-                            {{ render_field(field) }}
-                          {% endif %}
-                        {% endfor %}
-
+                        {{ render_field(form.title) }}
+                        {% if form.date.errors %}
+                         {% for error in form.date.errors %}
+                           <div>{{ error }}</div>
+                         {% endfor %}
+                        {% endif %}
+                        {{ form.date.label }}
+                        <input type="date" id="date" name="date">
+                        {{ render_field(form.time_spent) }}
+                        {{ render_field(form.learned )}}
+                        {{ render_field(form.ressources )}}
+                        {{ render_field(form.tags) }}
                         <input type="submit" value="Publish Entry" class="button">
                         <a href="{{ url_for('index') }}" class="button button-secondary">Cancel</a>
                     </form>
