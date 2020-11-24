@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>MyJournal</title>
+        <link href="https://fonts.googleapis.com/css?family=Cousine:400" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Work+Sans:600" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="/static/css/normalize.css">
+        <link rel="stylesheet" href="/static/css/site.css">
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <div class="site-header">
+                    <a class="logo" href="{{ url_for('index') }}"><i class="material-icons">library_books </i></a><br>
+                    <a href="{{ url_for('new') }}"class="button icon-right"><span>New Entry</span> <i class="material-icons">add</i></a>
+                    <a href="{{ url_for('logout') }}"class="button icon-right"><span>logout</span> <i class="material-icons">add</i></a>
+                    <a href="{{ url_for('login') }}"class="button icon-right"><span>login</span> <i class="material-icons">add</i></a>
+                </div>
+            </div>
+        </header>
+        <section>
+            <div class="container">
+                <div class="entry-list">
+                    <article>
+                      <h1>Entry name already exists</h1>
+                        <h2>Entry name already exists, please go back and enter a new name or edit previous entry.</h2>
+                        <p><a href="{{ url_for('index') }}">Go back to entries list</a></p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <div>
+                &copy; MyJournal
+            </div>
+        </footer>
+    </body>
+</html>

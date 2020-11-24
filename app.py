@@ -87,13 +87,16 @@ def new():
     form = forms.NewEntry()
     if form.validate_on_submit():
         tag_list = form.tags.data.split()
-        models.Entry.create_entry(
+        try:
+            models.Entry.create_entry(
             title=form.title.data,
             date=form.date.data,
             time_spent=form.time_spent.data,
             learned=form.learned.data,
             ressources=form.ressources.data,
         )
+        except ValueError:
+            return redirect(url_for('exists'))
 
         for tag in tag_list:
             if models.DoesNotExist:
@@ -161,8 +164,7 @@ def edit(entry_id):
                         pass
                     try:
                         models.EntryTag.base_tags_relation(
-                            models.Entry.get(
-                                models.Entry.title**form.title.data),
+                            models.Entry.get_by_id(entry_id),
                             models.Tag.get(models.Tag.tag**tag)
                             )
                     except ValueError:
@@ -195,6 +197,10 @@ def delete(entry_id):
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
+
+@app.route('/exists')
+def exists():
+    return render_template('exists.html')
 
 
 if __name__ == '__main__':
@@ -236,7 +242,7 @@ if __name__ == '__main__':
         pass
 
     try:
-        models.Tag.base_tags('Operating System')
+        models.Tag.base_tags('Operating_System')
     except ValueError:
         pass
 
